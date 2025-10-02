@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Masuk • Aplikasi</title>
+  <meta name="color-scheme" content="light dark" />
+  <style>
+    :root {
+      --background-color: #f3f4f6;
+      --card-background-color: #ffffff;
+      --text-color: #111827;
+      --muted-text-color: #6b7280;
+      --input-background-color: #f9fafb;
+      --input-border-color: #d1d5db;
+      --input-text-color: #111827;
+      --primary-color: #2563eb;
+      --primary-hover-color: #1d4ed8;
+      --border-color: #e5e7eb;
+      --shadow-elevation: 0 10px 25px rgba(0, 0, 0, 0.08);
+      --ring-color: rgba(37, 99, 235, 0.35);
+      --error-color: #dc2626;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --background-color: #0f172a;
+        --card-background-color: #0b1220;
+        --text-color: #e5e7eb;
+        --muted-text-color: #9ca3af;
+        --input-background-color: #0f172a;
+        --input-border-color: #334155;
+        --input-text-color: #e5e7eb;
+        --primary-color: #3b82f6;
+        --primary-hover-color: #2563eb;
+        --border-color: #1f2937;
+        --shadow-elevation: 0 10px 25px rgba(0, 0, 0, 0.6);
+        --ring-color: rgba(59, 130, 246, 0.35);
+        --error-color: #ef4444;
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: var(--background-color);
+      color: var(--text-color);
+      display: grid;
+      place-items: center;
+    }
+
+    main { width: 100%; padding: 24px; }
+
+    .card {
+      max-width: 420px;
+      margin-inline: auto;
+      background: var(--card-background-color);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      box-shadow: var(--shadow-elevation);
+      overflow: hidden;
+    }
+
+    .header { padding: 28px 28px 0; text-align: center; }
+    .header h1 { margin: 0 0 8px; font-size: 24px; }
+    .header p { margin: 0 0 8px; color: var(--muted-text-color); font-size: 14px; }
+
+    form { padding: 20px 28px 24px; }
+
+    .field { margin-bottom: 16px; }
+    label { display: block; font-weight: 600; margin-bottom: 8px; }
+
+    .input, .password-input input {
+      width: 100%;
+      appearance: none;
+      background: var(--input-background-color);
+      color: var(--input-text-color);
+      border: 1px solid var(--input-border-color);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 15px;
+      transition: border-color 120ms ease, box-shadow 120ms ease, background 120ms ease;
+    }
+
+    .input::placeholder, .password-input input::placeholder { color: var(--muted-text-color); }
+
+    .input:focus, .password-input input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 4px var(--ring-color);
+      background: transparent;
+    }
+
+    /* Tampilkan merah hanya setelah user mengetik (bukan saat kosong) */
+    .input:not(:placeholder-shown):invalid,
+    .password-input input:not(:placeholder-shown):invalid {
+      border-color: var(--error-color);
+    }
+
+    .password-input { position: relative; }
+    .password-input input { padding-right: 92px; }
+
+    .toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 8px;
+      transform: translateY(-50%);
+      border: 1px solid var(--input-border-color);
+      background: var(--card-background-color);
+      color: var(--muted-text-color);
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color 120ms ease, color 120ms ease, background 120ms ease;
+    }
+
+    .toggle-password:hover { color: var(--text-color); }
+    .toggle-password:focus { outline: none; box-shadow: 0 0 0 4px var(--ring-color); border-color: var(--primary-color); }
+
+    .form-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 14px 0 18px;
+    }
+
+    .checkbox { display: inline-flex; align-items: center; gap: 8px; color: var(--muted-text-color); }
+    .checkbox input { width: 16px; height: 16px; }
+
+    .link { color: var(--primary-color); text-decoration: none; font-weight: 600; }
+    .link:hover { text-decoration: underline; }
+
+    .submit {
+      width: 100%;
+      border: none;
+      background: var(--primary-color);
+      color: #ffffff;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 120ms ease, transform 60ms ease;
+    }
+
+    .submit:hover { background: var(--primary-hover-color); }
+    .submit:active { transform: translateY(1px); }
+
+    .error { margin: 6px 0 0; color: var(--error-color); font-size: 12px; min-height: 16px; }
+
+    .foot { text-align: center; color: var(--muted-text-color); padding: 0 28px 28px; font-size: 14px; }
+
+    @media (max-width: 420px) {
+      .card { border-radius: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="card" role="region" aria-labelledby="form-title">
+      <div class="header">
+        <h1 id="form-title">Masuk</h1>
+        <p>Selamat datang kembali! Silakan login untuk melanjutkan.</p>
+      </div>
+
+      <form id="loginForm" action="#" method="post" novalidate>
+        <div class="field">
+          <label for="email">Email</label>
+          <input
+            class="input"
+            id="email"
+            name="email"
+            type="email"
+            inputmode="email"
+            autocomplete="username"
+            placeholder="nama@contoh.com"
+            required
+            aria-describedby="emailError"
+          />
+          <p class="error" id="emailError" aria-live="polite"></p>
+        </div>
+
+        <div class="field">
+          <label for="password">Kata sandi</label>
+          <div class="password-input">
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              placeholder="Minimal 6 karakter"
+              minlength="6"
+              required
+              aria-describedby="passwordError"
+            />
+            <button type="button" id="togglePassword" class="toggle-password" aria-label="Tampilkan kata sandi" aria-pressed="false">Tampilkan</button>
+          </div>
+          <p class="error" id="passwordError" aria-live="polite"></p>
+        </div>
+
+        <div class="form-row">
+          <label class="checkbox" for="remember">
+            <input type="checkbox" id="remember" name="remember" />
+            <span>Ingat saya</span>
+          </label>
+          <a class="link" href="#">Lupa kata sandi?</a>
+        </div>
+
+        <button type="submit" class="submit">Masuk</button>
+      </form>
+
+      <p class="foot">Belum punya akun? <a class="link" href="#">Daftar</a></p>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const form = document.getElementById('loginForm');
+      const email = document.getElementById('email');
+      const password = document.getElementById('password');
+      const emailError = document.getElementById('emailError');
+      const passwordError = document.getElementById('passwordError');
+      const toggleBtn = document.getElementById('togglePassword');
+
+      function updateEmailError() {
+        if (email.value === '') {
+          emailError.textContent = '';
+          email.removeAttribute('aria-invalid');
+          return;
+        }
+        if (email.validity.valid) {
+          emailError.textContent = '';
+          email.removeAttribute('aria-invalid');
+        } else {
+          emailError.textContent = 'Masukkan email yang valid.';
+          email.setAttribute('aria-invalid', 'true');
+        }
+      }
+
+      function updatePasswordError() {
+        if (password.value === '') {
+          passwordError.textContent = '';
+          password.removeAttribute('aria-invalid');
+          return;
+        }
+        if (password.validity.valid) {
+          passwordError.textContent = '';
+          password.removeAttribute('aria-invalid');
+        } else {
+          passwordError.textContent = 'Kata sandi minimal 6 karakter.';
+          password.setAttribute('aria-invalid', 'true');
+        }
+      }
+
+      email.addEventListener('input', updateEmailError);
+      password.addEventListener('input', updatePasswordError);
+
+      toggleBtn.addEventListener('click', function () {
+        const isPassword = password.getAttribute('type') === 'password';
+        password.setAttribute('type', isPassword ? 'text' : 'password');
+        toggleBtn.setAttribute('aria-pressed', isPassword ? 'true' : 'false');
+        toggleBtn.textContent = isPassword ? 'Sembunyikan' : 'Tampilkan';
+      });
+
+      form.addEventListener('submit', function (e) {
+        // Gunakan validasi HTML5 terlebih dahulu
+        if (!form.checkValidity()) {
+          e.preventDefault();
+          updateEmailError();
+          updatePasswordError();
+          // Fokus ke field pertama yang invalid
+          if (!email.validity.valid) {
+            email.focus();
+          } else if (!password.validity.valid) {
+            password.focus();
+          }
+          return;
+        }
+
+        // Demo: cegah submit sungguhan. Hapus e.preventDefault() untuk produksi.
+        e.preventDefault();
+        alert('Form dikirim! Ganti atribut action/method untuk integrasi backend.');
+      });
+    })();
+  </script>
+</body>
+</html>
